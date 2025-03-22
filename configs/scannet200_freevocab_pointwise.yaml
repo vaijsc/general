@@ -1,0 +1,49 @@
+foundation_model:
+  # Segment Anything Model - 2
+  sam2_checkpoint: '../freevocab_checkpoints/sam2_hiera_large.pt'
+  clip_checkpoint: '../freevocab_checkpoints/ViT-L-14-336px.pt'
+
+
+### Current supported segmenter2ds
+# ['SAM-2': Segment-Anything-Model v2 || 
+# 'Open3DIS_SAM-2': Open3DIS with Automatic SAM v2 
+# 'SAM-2-Point': Segment-Anything-Model v2 on point fps]
+###
+segmenter2d:
+  model: 'SAM-2' # select 2D segmenter
+  clip_model: 'ViT-L/14@336px' # select 2D foundation
+proposal3d:
+  ncluster_fps: 512
+  video_factor: 100
+  sppweight: 0.5
+  weighted_views: 10 # number of selected frames for each video
+  view_optim: 10 # view for mask optimization 2^k
+  neighbors: 32 # neighbors for KNN
+
+data:
+  dataset_name: 'scannet200'
+  split_path: './loader3d/scannetv2_val.txt'
+  datapath: './data/Scannet200/Scannet200_2D_5interval/val' # RGB-D + pose path
+  gt_pth: './data/Scannet200/Scannet200_3D/val/groundtruth' # gt path
+  original_ply: './data/Scannet200/Scannet200_3D/val/original_ply_files' # raw pcl
+  spp_path: './data/Scannet200/Scannet200_3D/val/superpoints' # spp path
+  cls_agnostic_3d_proposals_path: './data/Scannet200/Scannet200_3D/val/isbnet_clsagnostic_scannet200' # cls agnostic 3D proposals
+  dc_features_path: './data/Scannet200/Scannet200_3D/val/dc_feat_scannet200' # spp feature path
+
+  img_dim: [640, 480] # coord alignment
+  rgb_img_dim: [1296, 968]
+  cut_num_pixel_boundary: 10
+  img_interval: 2
+  num_classes: 198
+
+exp:
+  exp_name: "version_dp_maximum_score_0.6_n_spp_div4"
+  mask2d_output: 'mask_sam' # For open3dis_reproduce
+  clustering_3d_output: 'mask2d_lifted' # 2Dlift path
+  clip_feature: 'clip_feature' # SPP Wise CLIP feature
+  openvocab_output: 'openvocab_results'  # benchmarking openvocab results
+  save_dir: '../freevocab_exp_scannet200'
+  llm_feature: 'llm_feature_pointwise' # SPP Wise CLIP feature
+  freevocab_output: 'freevocab_results_pointwise'  # benchmarking openvocab results
+
+fp16: True

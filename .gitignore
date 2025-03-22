@@ -1,0 +1,12 @@
+util3d/pointnet2/build
+tracker_*.txt
+shrdr
+gtinst.pth
+gtsem.pth
+output.txt
+res.pth
+result.txt
+scores.txt
+torch_scatter-2.1.0+pt112cu113-cp38-cp38-linux_x86_64.whl
+tracker_prompt.txt
+tracker_2d.txt

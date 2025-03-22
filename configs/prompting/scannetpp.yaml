@@ -1,0 +1,42 @@
+foundation_model:
+  # Segment Anything Model - 2
+  sam2_checkpoint: '../freevocab_checkpoints/sam2_hiera_large.pt'
+
+
+### Current supported segmenter2ds
+# ['SAM-2': Segment-Anything-Model v2]
+###
+segmenter2d:
+  model: 'SAM-2' # select 2D segmenter
+
+proposal3d:
+  prompt_click: 3
+  sppweight: 0.5
+  weighted_views: 10 # number of selected frames for each video
+  view_optim: 5 # view for mask optimization 2^k
+  neighbors: 64 # neighbors for KNN
+  
+data:
+  dataset_name: 'scannetpp'
+  split_path: './loader3d/scannetpp_val.txt'
+  datapath: './data/Scannetpp/Scannetpp_2D_5interval/val' # RGB-D + pose path
+  gt_pth: './data/Scannetpp/Scannetpp_3D/val/groundtruth' # gt path
+  original_ply: './data/Scannetpp/Scannetpp_3D/val/original_ply_files' # raw pcl
+  spp_path: './data/Scannetpp/Scannetpp_3D/val/superpoints' # spp path
+  cls_agnostic_3d_proposals_path: './data/Scannetpp/Scannetpp_3D/val/isbnet_clsagnostic_scannetpp' # cls agnostic 3D proposals
+  dc_features_path: './data/Scannetpp/Scannetpp_3D/val/dc_feat_scannetpp' # spp feature path
+
+  img_dim: [1920, 1440] # coord alignment
+  rgb_img_dim: [1920, 1440]
+  cut_num_pixel_boundary: 10
+  img_interval: 2
+  num_classes: 1554 # 1554 instance classes, 1659 semantic classes
+
+exp:
+  exp_name: "version_promptsam2_click3"
+  mask2d_output: 'mask_sam' # For open3dis_reproduce
+  clustering_3d_output: 'mask2d_lifted' # 2Dlift path
+  final_output: 'final_results' 
+  save_dir: '../exp_scannetpp_promptsam2'
+
+fp16: True
